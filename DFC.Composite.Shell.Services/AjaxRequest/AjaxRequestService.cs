@@ -5,8 +5,6 @@ using DFC.Composite.Shell.Services.AppRegistry;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
-using Polly.Retry;
-
 using System;
 using System.Net;
 using System.Net.Http;
@@ -32,6 +30,8 @@ namespace DFC.Composite.Shell.Services.AjaxRequest
         {
             _ = requestModel ?? throw new ArgumentNullException(nameof(requestModel));
             _ = ajaxRequest ?? throw new ArgumentNullException(nameof(ajaxRequest));
+
+            logger.LogInformation("Retrieving response for ajax request with Path:{Path}, Method:{Method} and AppData:{AppData} ", requestModel.Path, requestModel.Method, requestModel.AppData);
 
             var appData = string.IsNullOrWhiteSpace(requestModel.AppData) ? string.Empty : "/" + Uri.EscapeDataString(requestModel.AppData);
             var url = ajaxRequest.AjaxEndpoint.Replace("/{0}", $"{appData}", StringComparison.OrdinalIgnoreCase);
@@ -79,6 +79,8 @@ namespace DFC.Composite.Shell.Services.AjaxRequest
                     }
                 }
             }
+
+            logger.LogInformation("Returning response with Status Code:{StatusCode} ", responseModel.Status);
 
             return responseModel;
         }

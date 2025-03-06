@@ -7,7 +7,7 @@ using DFC.Composite.Shell.Services.AppRegistry;
 using FakeItEasy;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -25,6 +25,7 @@ namespace DFC.Composite.Shell.Test.Controllers
 
         private readonly IAjaxRequestService fakeAjaxRequestService = A.Fake<IAjaxRequestService>();
         private readonly IAppRegistryDataService fakeAppRegistryDataService = A.Fake<IAppRegistryDataService>();
+        private readonly ILogger<AjaxController> fakeLogger = A.Fake<ILogger<AjaxController>>();
 
         [Fact]
         public async Task AjaxControllerActionActionReturnsSuccess()
@@ -39,7 +40,7 @@ namespace DFC.Composite.Shell.Test.Controllers
             A.CallTo(() => fakeAppRegistryDataService.GetAppRegistrationModel(A<string>.Ignored)).Returns(appRegistrationModel);
             A.CallTo(() => fakeAjaxRequestService.GetResponseAsync(A<RequestModel>.Ignored, A<AjaxRequestModel>.Ignored)).Returns(dummyResponseModel);
 
-            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService);
+            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService, fakeLogger);
 
             // Act
             var result = await ajaxController.Action(requestModel);
@@ -63,7 +64,7 @@ namespace DFC.Composite.Shell.Test.Controllers
             A.CallTo(() => fakeAppRegistryDataService.GetAppRegistrationModel(A<string>.Ignored)).Returns(appRegistrationModel);
             A.CallTo(() => fakeAjaxRequestService.GetResponseAsync(A<RequestModel>.Ignored, A<AjaxRequestModel>.Ignored)).Returns(dummyResponseModel);
 
-            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService);
+            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService, fakeLogger);
 
             // Act
             var result = await ajaxController.Action(requestModel);
@@ -87,7 +88,7 @@ namespace DFC.Composite.Shell.Test.Controllers
             A.CallTo(() => fakeAppRegistryDataService.GetAppRegistrationModel(A<string>.Ignored)).Returns(appRegistrationModel);
             A.CallTo(() => fakeAjaxRequestService.GetResponseAsync(A<RequestModel>.Ignored, A<AjaxRequestModel>.Ignored)).Returns(dummyResponseModel);
 
-            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService);
+            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService, fakeLogger);
 
             // Act
             var result = await ajaxController.Action(requestModel);
@@ -111,7 +112,7 @@ namespace DFC.Composite.Shell.Test.Controllers
             A.CallTo(() => fakeAppRegistryDataService.GetAppRegistrationModel(A<string>.Ignored)).Returns(appRegistrationModel);
             A.CallTo(() => fakeAjaxRequestService.GetResponseAsync(A<RequestModel>.Ignored, A<AjaxRequestModel>.Ignored)).Returns(dummyResponseModel);
 
-            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService);
+            var ajaxController = new AjaxController(fakeAjaxRequestService, fakeAppRegistryDataService, fakeLogger);
 
             // Act
             var result = await ajaxController.Action(requestModel);
