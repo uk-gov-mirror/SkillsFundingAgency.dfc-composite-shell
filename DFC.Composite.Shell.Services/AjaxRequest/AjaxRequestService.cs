@@ -69,13 +69,19 @@ namespace DFC.Composite.Shell.Services.AjaxRequest
                 }
                 catch (TaskCanceledException ex)
                 {
-                    logger.LogError(ex, $"TaskCancelled: {url} - {ex.Message}");
+                    logger.LogError(ex, "TaskCancelled. Url:{Url} - Message:{Message}", url, ex.Message);
+
+                    logger.LogInformation("TaskCancelled. Url:{Url} - Message:{Message}", url, ex.Message);
 
                     responseModel.IsHealthy = false;
 
                     if (ajaxRequest.HealthCheckRequired)
                     {
                         await appRegistryDataService.SetAjaxRequestHealthState(requestModel.Path, ajaxRequest.Name, false);
+                    }
+                    else
+                    {
+                        logger.LogInformation("Ajax request IsHealthy property is NOT set to false as HealthCheckRequired property is false");
                     }
                 }
             }
